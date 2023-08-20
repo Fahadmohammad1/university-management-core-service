@@ -9,6 +9,11 @@
             "date": 1692504540802,
             "name": "/media/fahad/Data disk/NEXT-LEVEL/mission-06/university-management-core-service/logs/winston/errors/phu-2023-20-08-10-error.log",
             "hash": "0e11ea32c5ad144d64f9a6d1290061918aaee9f530777ca3ef09bbe41489d578"
+        },
+        {
+            "date": 1692507666724,
+            "name": "/media/fahad/Data disk/NEXT-LEVEL/mission-06/university-management-core-service/logs/winston/errors/phu-2023-20-08-11-error.log",
+            "hash": "e457f73a6ea92983fa489703251d19d2e5c411d2074110439bf373cd7c8b1437"
         }
     ],
     "hashType": "sha256"
