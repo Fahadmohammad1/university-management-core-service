@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/media/fahad/Data disk/NEXT-LEVEL/mission-06/university-management-core-service/logs/winston/successes/.f7036d58d72d0f3e212be1a26b6a325baa0e5241-audit.json",
+    "files": [
+        {
+            "date": 1692504540770,
+            "name": "/media/fahad/Data disk/NEXT-LEVEL/mission-06/university-management-core-service/logs/winston/successes/phu-2023-20-08-10-success.log",
+            "hash": "428485ac2f2368ce0e7af907bc3e86c295c5fd133ee59ef6dd316b8c5479faf4"
+        }
+    ],
+    "hashType": "sha256"
+}
