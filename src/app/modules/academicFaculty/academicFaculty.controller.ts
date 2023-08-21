@@ -1,9 +1,9 @@
-import { AcademicFaculty } from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
-import prisma from '../../../shared/prisma';
+import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
+import { academicFacultyFilterableFields } from './academicFaculty.constant';
 import { AcademicFacultyService } from './academicFaculty.service';
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
@@ -16,16 +16,32 @@ const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const getByIdFromDB = async (id: string): Promise<AcademicFaculty | null> => {
-  const result = await prisma.academicFaculty.findUnique({
-    where: {
-      id,
-    },
+const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, academicFacultyFilterableFields);
+  const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
+  const result = await AcademicFacultyService.getAllFromDB(filters, options);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'AcademicFaculties fetched successfully',
+    meta: result.meta,
+    data: result.data,
   });
-  return result;
-};
+});
+
+const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await AcademicFacultyService.getByIdFromDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'AcademicFaculty fetched successfully',
+    data: result,
+  });
+});
 
 export const AcademicFacultyController = {
   insertIntoDB,
   getByIdFromDB,
+  getAllFromDB,
 };

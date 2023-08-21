@@ -19,6 +19,16 @@
             "date": 1692625529748,
             "name": "/media/fahad/Data disk/NEXT-LEVEL/mission-06/university-management-core-service/logs/winston/successes/phu-2023-21-08-19-success.log",
             "hash": "fb684455adb68d6606629a8282728523211451207c274a5467cc53401fa247e9"
+        },
+        {
+            "date": 1692626635305,
+            "name": "/media/fahad/Data disk/NEXT-LEVEL/mission-06/university-management-core-service/logs/winston/successes/phu-2023-21-08-20-success.log",
+            "hash": "367bf45b89e77e729429e3e809957d3620f859989131ecfc0659a1740c12d8a5"
+        },
+        {
+            "date": 1692630272624,
+            "name": "/media/fahad/Data disk/NEXT-LEVEL/mission-06/university-management-core-service/logs/winston/successes/phu-2023-21-08-21-success.log",
+            "hash": "5e540a9d6608517be451792015f20ac1dad8e71d0a10e208882c40efa61b4e16"
         }
     ],
     "hashType": "sha256"
