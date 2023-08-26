@@ -7,7 +7,7 @@ import { BuildingValidations } from './building.validation';
 
 const router = express.Router();
 
-// router.get('/', BuildingController.getAllFromDB)
+router.get('/', BuildingController.getAllFromDB);
 
 router.post(
   '/',
