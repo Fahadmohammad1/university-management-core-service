@@ -22,11 +22,11 @@ const getAllFromDB = async (
 ): Promise<IGenericResponse<AcademicSemester[]>> => {
   const { page, limit, skip } = paginationHelpers.calculatePagination(options);
   const { searchTerm, ...filterData } = filters;
-
-  const andConditions = [];
+  console.log(options);
+  const andConditons = [];
 
   if (searchTerm) {
-    andConditions.push({
+    andConditons.push({
       OR: AcademicSemesterSearchableFields.map(field => ({
         [field]: {
           contains: searchTerm,
@@ -37,7 +37,7 @@ const getAllFromDB = async (
   }
 
   if (Object.keys(filterData).length > 0) {
-    andConditions.push({
+    andConditons.push({
       AND: Object.keys(filterData).map(key => ({
         [key]: {
           equals: (filterData as any)[key],
@@ -46,11 +46,11 @@ const getAllFromDB = async (
     });
   }
 
-  const whereConditions: Prisma.AcademicSemesterWhereInput =
-    andConditions.length > 0 ? { AND: andConditions } : {};
+  const whereConditons: Prisma.AcademicSemesterWhereInput =
+    andConditons.length > 0 ? { AND: andConditons } : {};
 
   const result = await prisma.academicSemester.findMany({
-    where: whereConditions,
+    where: whereConditons,
     skip,
     take: limit,
     orderBy:
@@ -85,8 +85,32 @@ const getDataById = async (id: string): Promise<AcademicSemester | null> => {
   return result;
 };
 
+const updateOneInDB = async (
+  id: string,
+  payload: Partial<AcademicSemester>
+): Promise<AcademicSemester> => {
+  const result = await prisma.academicSemester.update({
+    where: {
+      id,
+    },
+    data: payload,
+  });
+  return result;
+};
+
+const deleteByIdFromDB = async (id: string): Promise<AcademicSemester> => {
+  const result = await prisma.academicSemester.delete({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
 export const AcademicSemesterService = {
   insertIntoDB,
   getAllFromDB,
   getDataById,
+  updateOneInDB,
+  deleteByIdFromDB,
 };
