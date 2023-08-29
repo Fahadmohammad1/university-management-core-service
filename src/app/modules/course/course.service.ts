@@ -16,9 +16,6 @@ import {
 const insertIntoDB = async (data: ICourseCreateData): Promise<any> => {
   const { preRequisiteCourses, ...courseData } = data;
 
-  console.log('course data', courseData);
-  console.log('pre requisite course data: ', preRequisiteCourses);
-
   const newCourse = await prisma.$transaction(async transactionClient => {
     const result = await transactionClient.course.create({
       data: courseData,
@@ -297,25 +294,25 @@ const removeFaculties = async (
   payload: string[]
 ): Promise<CourseFaculty[] | null> => {
   await prisma.courseFaculty.deleteMany({
-      where: {
-          courseId: id,
-          facultyId: {
-              in: payload
-          }
-      }
-  })
+    where: {
+      courseId: id,
+      facultyId: {
+        in: payload,
+      },
+    },
+  });
 
   const assignFacultiesData = await prisma.courseFaculty.findMany({
-      where: {
-          courseId: id
-      },
-      include: {
-          faculty: true
-      }
-  })
+    where: {
+      courseId: id,
+    },
+    include: {
+      faculty: true,
+    },
+  });
 
-  return assignFacultiesData
-}
+  return assignFacultiesData;
+};
 
 export const CourseService = {
   insertIntoDB,
@@ -323,5 +320,6 @@ export const CourseService = {
   getByIdFromDB,
   deleteByIdFromDB,
   updateOneInDB,
-  assignFaculties,removeFaculties
+  assignFaculties,
+  removeFaculties,
 };

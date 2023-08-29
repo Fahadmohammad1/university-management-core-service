@@ -64,7 +64,7 @@ const deleteByIdFromDB = catchAsync(async (req: Request, res: Response) => {
 
 const assignFaculties = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  console.log(req.body.faculties);
+
   const result = await CourseService.assignFaculties(id, req.body.faculties);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -76,7 +76,7 @@ const assignFaculties = catchAsync(async (req: Request, res: Response) => {
 
 const removeFaculties = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  console.log(req.body.faculties);
+
   const result = await CourseService.removeFaculties(id, req.body.faculties);
   sendResponse(res, {
     statusCode: httpStatus.OK,
