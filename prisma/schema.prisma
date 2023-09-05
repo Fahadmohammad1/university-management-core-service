@@ -252,6 +252,17 @@ model StudentSemesterRegistration {
   @@map("student_semester_registrations")
 }
 
+model StudentSemesterRegistrationCourse {
+  semesterRegistrationId String
+  studentId              String
+  offeredCourseSectionId String
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@id([semesterRegistrationId, studentId, offeredCourseSectionId])
+  @@map("student_semester_registration_courses")
+}
+
 enum SemesterRegistrationStatus {
   UPCOMING
   ONGOING
