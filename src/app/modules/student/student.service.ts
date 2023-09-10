@@ -119,12 +119,11 @@ const updateIntoDB = async (
     },
     data: payload,
     include: {
+      academicSemester: true,
       academicDepartment: true,
       academicFaculty: true,
-      academicSemester: true,
     },
   });
-
   return result;
 };
 
@@ -134,9 +133,39 @@ const deleteFromDB = async (id: string): Promise<Student> => {
       id,
     },
     include: {
+      academicSemester: true,
       academicDepartment: true,
       academicFaculty: true,
-      academicSemester: true,
+    },
+  });
+  return result;
+};
+
+const myCourses = async (
+  authUserId: string,
+  filter: {
+    courseId?: string | undefined;
+    academicSemesterId?: string | undefined;
+  }
+) => {
+  if (!filter.academicSemesterId) {
+    const currentSemester = await prisma.academicSemester.findFirst({
+      where: {
+        isCurrent: true,
+      },
+    });
+    filter.academicSemesterId = currentSemester?.id;
+  }
+
+  const result = await prisma.studentEnrolledCourse.findMany({
+    where: {
+      student: {
+        studentId: authUserId,
+      },
+      ...filter,
+    },
+    include: {
+      course: true,
     },
   });
 
@@ -149,4 +178,5 @@ export const StudentService = {
   getByIdFromDB,
   updateIntoDB,
   deleteFromDB,
+  myCourses,
 };
