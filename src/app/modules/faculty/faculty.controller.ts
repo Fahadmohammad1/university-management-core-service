@@ -64,7 +64,7 @@ const deleteByIdFromDB = catchAsync(async (req: Request, res: Response) => {
 
 const assignCourses = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-
+  console.log(req.body.faculties);
   const result = await FacultyService.assignCourses(id, req.body.courses);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -76,12 +76,24 @@ const assignCourses = catchAsync(async (req: Request, res: Response) => {
 
 const removeCourses = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-
+  console.log(req.body.faculties);
   const result = await FacultyService.removeCourses(id, req.body.courses);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Course faculty deleted successfully',
+    data: result,
+  });
+});
+
+const myCourses = catchAsync(async (req: Request, res: Response) => {
+  const user = (req as any).user;
+  const filter = pick(req.query, ['academicSemesterId', 'courseId']);
+  const result = await FacultyService.myCourses(user, filter);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'My courses data fetched successfully!',
     data: result,
   });
 });
@@ -94,4 +106,5 @@ export const FacultyController = {
   deleteByIdFromDB,
   assignCourses,
   removeCourses,
+  myCourses,
 };
