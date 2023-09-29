@@ -1,33 +1,56 @@
 import { AcademicSemester, Prisma } from '@prisma/client';
+import httpStatus from 'http-status';
+import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-import { AcademicSemesterSearchableFields } from './academicSemester.constants';
-import { IAcademicSemesterFilterRequest } from './academicSemester.interface';
+import { RedisClient } from '../../../shared/redis';
+
+import { IAcademicSemeterFilterRequest } from './academicSemester.interface';
+import {
+  AcademicSemesterSearchAbleFields,
+  EVENT_ACADEMIC_SEMESTER_CREATED,
+  EVENT_ACADEMIC_SEMESTER_DELETED,
+  EVENT_ACADEMIC_SEMESTER_UPDATED,
+  academicSemesterTitleCodeMapper,
+} from './academicSemeter.contants';
 
 const insertIntoDB = async (
   academicSemesterData: AcademicSemester
 ): Promise<AcademicSemester> => {
+  if (
+    academicSemesterTitleCodeMapper[academicSemesterData.title] !==
+    academicSemesterData.code
+  ) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Semester Code');
+  }
   const result = await prisma.academicSemester.create({
     data: academicSemesterData,
   });
+
+  if (result) {
+    await RedisClient.publish(
+      EVENT_ACADEMIC_SEMESTER_CREATED,
+      JSON.stringify(result)
+    );
+  }
 
   return result;
 };
 
 const getAllFromDB = async (
-  filters: IAcademicSemesterFilterRequest,
+  filters: IAcademicSemeterFilterRequest,
   options: IPaginationOptions
 ): Promise<IGenericResponse<AcademicSemester[]>> => {
   const { page, limit, skip } = paginationHelpers.calculatePagination(options);
   const { searchTerm, ...filterData } = filters;
-
+  console.log(options);
   const andConditons = [];
 
   if (searchTerm) {
     andConditons.push({
-      OR: AcademicSemesterSearchableFields.map(field => ({
+      OR: AcademicSemesterSearchAbleFields.map(field => ({
         [field]: {
           contains: searchTerm,
           mode: 'insensitive',
@@ -45,6 +68,12 @@ const getAllFromDB = async (
       })),
     });
   }
+
+  /**
+   * person = { name: 'fahim' }
+   * name = person[name]
+   *
+   */
 
   const whereConditons: Prisma.AcademicSemesterWhereInput =
     andConditons.length > 0 ? { AND: andConditons } : {};
@@ -95,6 +124,12 @@ const updateOneInDB = async (
     },
     data: payload,
   });
+  if (result) {
+    await RedisClient.publish(
+      EVENT_ACADEMIC_SEMESTER_UPDATED,
+      JSON.stringify(result)
+    );
+  }
   return result;
 };
 
@@ -104,6 +139,13 @@ const deleteByIdFromDB = async (id: string): Promise<AcademicSemester> => {
       id,
     },
   });
+
+  if (result) {
+    await RedisClient.publish(
+      EVENT_ACADEMIC_SEMESTER_DELETED,
+      JSON.stringify(result)
+    );
+  }
   return result;
 };
 
