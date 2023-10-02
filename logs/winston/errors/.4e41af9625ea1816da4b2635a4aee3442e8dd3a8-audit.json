@@ -6,16 +6,6 @@
     "auditLog": "/media/fahad/Data disk/NEXT-LEVEL/mission-06/university-management-core-service/logs/winston/errors/.4e41af9625ea1816da4b2635a4aee3442e8dd3a8-audit.json",
     "files": [
         {
-            "date": 1694885348946,
-            "name": "/media/fahad/Data disk/NEXT-LEVEL/mission-06/university-management-core-service/logs/winston/errors/phu-2023-16-09-23-error.log",
-            "hash": "38972e8471a3c120a8748c1ee53b2a66ff5f1275f7e97822ae228e38726c411d"
-        },
-        {
-            "date": 1695035120649,
-            "name": "/media/fahad/Data disk/NEXT-LEVEL/mission-06/university-management-core-service/logs/winston/errors/phu-2023-18-09-17-error.log",
-            "hash": "976c39982e0f21b7efc3caf338fe0b2e93fb05959ba16443a7c08d3d70f3ffae"
-        },
-        {
             "date": 1695106420471,
             "name": "/media/fahad/Data disk/NEXT-LEVEL/mission-06/university-management-core-service/logs/winston/errors/phu-2023-19-09-12-error.log",
             "hash": "2262af12f0f7daad0a01352c9e23824c6c7640c7ae3fa40ae6e3650c4c964ba2"
@@ -39,6 +29,11 @@
             "date": 1695997886905,
             "name": "/media/fahad/Data disk/NEXT-LEVEL/mission-06/university-management-core-service/logs/winston/errors/phu-2023-29-09-20-error.log",
             "hash": "2983f71913bf712b7d9787e8768f7341106236c83de6870f8182cf142c766c5c"
+        },
+        {
+            "date": 1696249169402,
+            "name": "/media/fahad/Data disk/NEXT-LEVEL/mission-06/university-management-core-service/logs/winston/errors/phu-2023-02-10-18-error.log",
+            "hash": "be751287aab7d49a407fae93cd1edbac528c0fefb99afb8662bff6114254ff2c"
         }
     ],
     "hashType": "sha256"
